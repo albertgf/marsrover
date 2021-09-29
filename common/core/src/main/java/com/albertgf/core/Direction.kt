@@ -3,7 +3,7 @@ package com.albertgf.core
 import com.albertgf.core.extensions.fmod
 import java.lang.IllegalArgumentException
 
-class Direction (directionChar: String) {
+class Direction(directionChar: String) {
 
     private var current: Int
 

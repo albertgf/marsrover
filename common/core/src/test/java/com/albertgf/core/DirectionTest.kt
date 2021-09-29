@@ -10,7 +10,7 @@ class DirectionTest {
 
     @Before
     fun before() {
-        direction = Direction()
+        direction = Direction("N")
     }
 
     @Test
