@@ -25,4 +25,14 @@ class Direction {
     fun get(): Pair<Int, Int> {
         return directions[current]
     }
+
+    fun string(): String {
+        return when(current) {
+            0 -> "N"
+            1 -> "E"
+            2 -> "S"
+            3 -> "W"
+            else -> ""
+        }
+    }
 }

@@ -14,10 +14,10 @@ class Rover {
     }
 
     fun turnLeft() {
-
+        direction.turnLeft()
     }
 
     fun turnRight() {
-
+        direction.turnRight()
     }
 }
