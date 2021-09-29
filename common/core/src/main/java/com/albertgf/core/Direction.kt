@@ -26,7 +26,7 @@ class Direction {
         return directions[current]
     }
 
-    fun string(): String {
+    fun print(): String {
         return when(current) {
             0 -> "N"
             1 -> "E"
