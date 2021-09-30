@@ -6,13 +6,7 @@ class Position(
     var direction: Direction
 ) : MovementCommand {
     fun print(): String {
-        return "$x $y"
-    }
-
-    fun update(direction: Direction) : Position {
-        x += direction.get().first
-        y += direction.get().second
-        return this
+        return "$x $y ${direction.print()}"
     }
 
     override fun move(terrain: Terrain): MovementCommand {
