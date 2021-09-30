@@ -10,7 +10,11 @@ class NavigationSystemTest {
 
     @Before
     fun setup() {
-        navSystem = NavigationSystem(Terrain(5,5), position = Position(0,0), direction = Direction("N"))
+        navSystem =
+            NavigationSystem(
+                terrain = Terrain(width = 5, height = 5),
+                position = Position(x = 0, y = 0, direction = Direction("N"))
+            )
     }
 
     @Test
@@ -29,10 +33,12 @@ class NavigationSystemTest {
 
     @Test
     fun stop_at_terrain_limit2() {
-        val navSystemExample = NavigationSystem(Terrain(5,5), position = Position(1,2), direction = Direction("N"))
+        val navSystemExample = NavigationSystem(
+            terrain = Terrain(width = 5, height = 5),
+            position = Position(x = 1, y = 2, direction = Direction("N"))
+        )
         navSystemExample.input("LMLMLMLMM")
 
         Assert.assertEquals(navSystemExample.printLocation(), "1 3 N")
     }
-
 }
