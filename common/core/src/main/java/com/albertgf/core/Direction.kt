@@ -27,12 +27,14 @@ class Direction(directionChar: String) {
         Pair(-1,0)
     )
 
-    fun turnLeft() {
+    fun turnLeft(): Direction {
         current = (--current).fmod(directions.size)
+        return this
     }
 
-    fun turnRight() {
+    fun turnRight() : Direction {
         current = (++current).fmod(directions.size)
+        return this
     }
 
     fun get(): Pair<Int, Int> {
