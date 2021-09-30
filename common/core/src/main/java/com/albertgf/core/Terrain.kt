@@ -16,4 +16,7 @@ data class Terrain(
 
         return Some(position.update(direction))
     }
+     fun withinLimits(x: Int, y: Int): Boolean {
+        return y <= height - 1 && y >= 0 && x < width && x >= 0
+    }
 }
