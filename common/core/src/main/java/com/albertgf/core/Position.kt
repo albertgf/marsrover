@@ -4,21 +4,28 @@ class Position(
     var x:Int = 0,
     var y:Int = 0,
     var direction: Direction
-) : MovementCommand {
+) {
     fun print(): String {
         return "$x $y ${direction.print()}"
     }
 
-    override fun move(terrain: Terrain): MovementCommand {
-        val pos = Position(x+direction.get().first, y + direction.get().second, direction)
-        return if (terrain.withinLimits(pos.x, pos.y))  pos else this
+    fun move(terrain: Terrain): Position {
+        val difX = direction.x()
+        val difY = direction.y()
+        if (terrain.withinLimits(x + difX, y + difY)){
+            x += difX
+            y += difY
+        }
+        return this
     }
 
-    override fun left(): MovementCommand {
-        return Position(x, y, direction.turnLeft())
+    fun left(): Position{
+        direction.turnLeft()
+        return this
     }
 
-    override fun right(): MovementCommand {
-        return Position(x, y, direction.turnRight())
+    fun right(): Position {
+        direction.turnRight()
+        return this
     }
 }

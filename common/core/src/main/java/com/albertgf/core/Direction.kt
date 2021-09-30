@@ -37,9 +37,15 @@ class Direction(directionChar: String) {
         return this
     }
 
-    fun get(): Pair<Int, Int> {
-        return directions[current]
+    fun x(): Int {
+        return directions[current].first
     }
+
+    fun y(): Int {
+        return directions[current].second
+    }
+
+    fun get(): Pair<Int, Int> = directions[current]
 
     fun print(): String {
         return when(current) {

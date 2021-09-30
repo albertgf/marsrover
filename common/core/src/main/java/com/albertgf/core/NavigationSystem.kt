@@ -9,10 +9,10 @@ class NavigationSystem(val terrain: Terrain, var position: Position)  {
     fun input(input: String) {
         input.forEach {
             position = when (it) {
-                'L' -> position.left() as Position
-                'R' -> position.right() as Position
-                'M' -> position.move(terrain) as Position
-                else -> position
+                'L' -> position.left()
+                'R' -> position.right()
+                'M' -> position.move(terrain)
+                else -> position //manage the possibility of wrong char in input
             }
         }
     }
