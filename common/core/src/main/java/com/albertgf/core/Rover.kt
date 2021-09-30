@@ -6,8 +6,7 @@ class Rover {
     fun setup(x: Int, y: Int, direction: String) {
         navigationSystem = NavigationSystem(
             terrain = Terrain(5, 5),
-            position = Position(x, y),
-            direction = Direction(direction)
+            position = Position(x, y, direction = Direction(direction))
         )
     }
 
