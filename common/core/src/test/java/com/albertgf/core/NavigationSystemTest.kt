@@ -29,9 +29,10 @@ class NavigationSystemTest {
 
     @Test
     fun stop_at_terrain_limit2() {
-        navSystem.input("LMLMLMLMM")
+        val navSystemExample = NavigationSystem(Terrain(5,5), position = Position(1,2), direction = Direction("N"))
+        navSystemExample.input("LMLMLMLMM")
 
-        Assert.assertEquals(navSystem.printLocation(), "1 3 N")
+        Assert.assertEquals(navSystemExample.printLocation(), "1 3 N")
     }
 
 }

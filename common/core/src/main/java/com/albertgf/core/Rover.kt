@@ -1,23 +1,17 @@
 package com.albertgf.core
 
 class Rover {
-
-    private val position = Position()
-    private var direction = Direction()
+    private lateinit var navigationSystem: NavigationSystem
 
     fun setup(x: Int, y: Int, direction: String) {
-        position.initialPosition(x,y)
+        navigationSystem = NavigationSystem(
+            terrain = Terrain(5, 5),
+            position = Position(x, y),
+            direction = Direction(direction)
+        )
     }
 
-    fun move() {
-        position.move(direction)
-    }
-
-    fun turnLeft() {
-        direction.turnLeft()
-    }
-
-    fun turnRight() {
-        direction.turnRight()
+    fun print(): String {
+        return navigationSystem.printLocation()
     }
 }

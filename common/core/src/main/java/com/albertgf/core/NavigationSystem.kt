@@ -1,6 +1,8 @@
 package com.albertgf.core
 
-class NavigationSystem(val terrain: Terrain, val position: Position, val direction: Direction) : MovementCommands {
+import arrow.core.getOrElse
+
+class NavigationSystem(val terrain: Terrain, var position: Position, val direction: Direction) : MovementCommands {
 
     fun printLocation(): String {
         return "${position.print()} ${direction.print()}"
@@ -17,7 +19,7 @@ class NavigationSystem(val terrain: Terrain, val position: Position, val directi
     }
 
     override fun move(): MovementCommands {
-        position.update(direction)
+        this.position = terrain.move(position, direction).getOrElse { position }
         return this
     }
 
