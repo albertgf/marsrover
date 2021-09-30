@@ -1,0 +1,8 @@
+apply from: "${rootDir}/buildsystem/android-module.gradle"
+apply from: "${rootDir}/buildsystem/viewmodel-module.gradle"
+
+dependencies {
+    implementation project(":common:core")
+    implementation project(":common:coreview")
+    implementation project(":common:domain")
+}

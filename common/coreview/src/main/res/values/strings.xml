@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">coreview</string>
+    <string name="add_value">add_value</string>
 </resources>
