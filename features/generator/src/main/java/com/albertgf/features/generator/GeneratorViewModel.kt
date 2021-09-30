@@ -1,10 +1,14 @@
 package com.albertgf.features.generator
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.albertgf.common.domain.models.RoverDomain
+import com.albertgf.common.domain.repository.SendRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
-class GeneratorViewModel : ViewModel() {
+class GeneratorViewModel(private val sendRepository: SendRepository) : ViewModel() {
 
     private val _terrain = MutableStateFlow(1)
     val terrainSize = _terrain.asStateFlow()
@@ -23,7 +27,9 @@ class GeneratorViewModel : ViewModel() {
 
     fun updateTerrainSize(value: Int) {
         val terrain = _terrain.value + value
-        if (terrain > 0) { _terrain.value = terrain }
+        if (terrain > 0) {
+            _terrain.value = terrain
+        }
     }
 
     fun updateX(value: Int) {
@@ -49,6 +55,15 @@ class GeneratorViewModel : ViewModel() {
     }
 
     fun sendData() {
-
+        viewModelScope.launch {
+            sendRepository.send(
+                RoverDomain(
+                    terrain = _terrain.value,
+                    x = _x.value,
+                    y = _y.value,
+                    instructions = _instructions.value,
+                    direction = _direction.value
+                ))
+        }
     }
 }
