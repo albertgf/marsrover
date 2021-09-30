@@ -9,3 +9,5 @@ dependencyResolutionManagement {
 rootProject.name = "marsrover"
 include ':app'
 include ':common:core'
+include ':features:generator'
+include ':common:coreview'
