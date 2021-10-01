@@ -38,7 +38,7 @@ fun ScreenResult(data: State<Resource<String>>, onReveal: () -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Sending Data")
+            Text(stringResource(id = R.string.label_sending_data))
             Icon(
                 imageVector = imageSending(data.value.state),
                 contentDescription = stringResource(id = R.string.cd_sending_data),
@@ -49,7 +49,7 @@ fun ScreenResult(data: State<Resource<String>>, onReveal: () -> Unit) {
                     .height(64.dp)
                     .width(64.dp)
             )
-            Text("Explore")
+            Text(stringResource(id = R.string.label_explore))
             Icon(
                 imageVector = imageExplore(data.value.state),
                 contentDescription = stringResource(id = R.string.cd_explore),
@@ -60,7 +60,9 @@ fun ScreenResult(data: State<Resource<String>>, onReveal: () -> Unit) {
                     .height(64.dp)
                     .width(64.dp)
             )
-            Text("Ending Position")
+            Text(
+                stringResource(id = R.string.label_ending),
+            modifier = Modifier.padding(top = 16.dp))
 
             Box(
                 modifier = Modifier
