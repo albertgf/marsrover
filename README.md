@@ -7,9 +7,9 @@ this repository contains an Android application with a solution to the Mars Rove
 
 This application is based on Compose.
 
-* ''GeneratorActivity'' shows an UI to setup mars rover input, send it and show the result
+* ''GeneratorActivity'' shows an UI to setup mars rover input, send it
 ![GeneratorActivityScreenshot][generatorActivityScreenshot]
-  
+* ''ResultScreen'' shows the result of the mars rover exploration'
 ![GeneratorActivityResultScreenshot][generatorActivityresultScreenshot]
 
 the application is based on a multi-module project, with MVVM architecture and test the main functionalities
