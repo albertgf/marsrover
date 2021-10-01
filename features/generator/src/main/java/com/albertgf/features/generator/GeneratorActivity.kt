@@ -51,7 +51,8 @@ class GeneratorActivity : ComponentActivity() {
                 BackdropScaffold(
                     scaffoldState = scaffoldState,
                     appBar = { AppBar() },
-                    backLayerContent = { ScreenConnection(viewModel.result.collectAsState()) { scope.launch { scaffoldState.conceal() } } },
+                    backLayerContent = { ScreenResult(viewModel.result.collectAsState()) {
+                        scope.launch { scaffoldState.conceal() } } },
                     backLayerContentColor = Color.White,
                     backLayerBackgroundColor = colorResource(id = R.color.gray_500),
                     frontLayerContent = {
@@ -65,103 +66,6 @@ class GeneratorActivity : ComponentActivity() {
 
                 }
             }
-        }
-    }
-
-    @Composable
-    fun ScreenConnection(data: State<Resource<String>>, onReveal: () -> Unit) {
-        Surface(
-            color = Color.Transparent
-        ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text("Sending Data")
-                Icon(
-                    imageVector = imageSending(data.value.state),
-                    contentDescription = "",
-                    tint = imageSendingColor(data.value.state),
-                    modifier =
-                    Modifier
-                        .padding(16.dp)
-                        .height(64.dp)
-                        .width(64.dp)
-                )
-                Text("Explore")
-                Icon(
-                    imageVector = imageExplore(data.value.state),
-                    contentDescription = "",
-                    tint = imageExploreColor(data.value.state),
-                    modifier =
-                    Modifier
-                        .padding(16.dp)
-                        .height(64.dp)
-                        .width(64.dp)
-                )
-                Text("Ending Position")
-
-                Box(
-                    modifier = Modifier
-                        .clip(shape = CircleShape)
-                        .background(Color.Black)
-                        .padding(8.dp)
-                        .defaultMinSize(100.dp, 32.dp)
-                ) {
-                    Text(
-                        text = data.value.data ?: "",
-                        color = MaterialTheme.colors.primary,
-                        textAlign = TextAlign.Center,
-                        fontSize = 32.sp,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-
-                PrimaryButton(
-                    textId = R.string.retry,
-                    onClick = { onReveal() },
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(top = 32.dp)
-                )
-            }
-        }
-    }
-
-    private fun imageSending(state: ResourceState): ImageVector {
-        return when (state) {
-            ResourceState.IDLE -> Icons.Filled.WifiOff
-            ResourceState.SETUP -> Icons.Filled.Wifi
-            ResourceState.LOADING -> Icons.Filled.Wifi
-            ResourceState.SUCCESS -> Icons.Filled.Wifi
-        }
-    }
-
-    private fun imageSendingColor(state: ResourceState): Color {
-        return when (state) {
-            ResourceState.IDLE -> Color.White
-            ResourceState.SETUP -> Color.White
-            ResourceState.LOADING -> Color.Green
-            ResourceState.SUCCESS -> Color.Green
-        }
-    }
-
-    private fun imageExplore(state: ResourceState): ImageVector {
-        return when (state) {
-            ResourceState.IDLE -> Icons.Filled.Pause
-            ResourceState.SETUP -> Icons.Filled.Pause
-            ResourceState.LOADING -> Icons.Filled.Explore
-            ResourceState.SUCCESS -> Icons.Filled.Explore
-        }
-    }
-
-    private fun imageExploreColor(state: ResourceState): Color {
-        return when (state) {
-            ResourceState.IDLE -> Color.Red
-            ResourceState.SETUP -> Color.Red
-            ResourceState.LOADING -> Color.White
-            ResourceState.SUCCESS -> Color.Green
         }
     }
 

@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">generator</string>
     <string name="retry">RETRY</string>
+    <string name="cd_sending_data">icon of sending data status</string>
+    <string name="cd_explore">icon of explore status</string>
 </resources>
