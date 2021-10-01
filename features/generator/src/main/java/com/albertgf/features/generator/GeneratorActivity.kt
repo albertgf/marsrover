@@ -5,8 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -17,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,6 +30,7 @@ import com.albertgf.coreview.compose.BtnIconCircle
 import com.albertgf.coreview.compose.DirectionsInput
 import com.albertgf.coreview.compose.InputField
 import com.albertgf.coreview.theme.MarsroverTheme
+import com.albertgf.features.R
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -48,13 +52,13 @@ class GeneratorActivity : ComponentActivity() {
                     appBar = { AppBar() },
                     backLayerContent = { ScreenConnection(viewModel.result.collectAsState()) { scope.launch { scaffoldState.conceal() } } },
                     backLayerContentColor = Color.White,
-                    backLayerBackgroundColor = Color.DarkGray,
+                    backLayerBackgroundColor = colorResource(id = R.color.gray_500),
                     frontLayerContent = {
                         ScreenGenerator { scope.launch { scaffoldState.reveal() } }
                     },
-                    frontLayerContentColor = Color.LightGray,
-                    frontLayerScrimColor = Color.LightGray,
-                    frontLayerBackgroundColor = Color.LightGray,
+                    frontLayerContentColor = Color.White,
+                    frontLayerScrimColor = colorResource(id = R.color.gray_200),
+                    frontLayerBackgroundColor = colorResource(id = R.color.gray_200),
                     gesturesEnabled = false
                 ) {
 
@@ -98,25 +102,34 @@ class GeneratorActivity : ComponentActivity() {
                 Text("Ending Position")
 
                 Box(
-                    modifier = Modifier.clip(shape = CircleShape).background(Color.Black).padding(8.dp).defaultMinSize(100.dp, 32.dp)
+                    modifier = Modifier
+                        .clip(shape = CircleShape)
+                        .background(Color.Black)
+                        .padding(8.dp)
+                        .defaultMinSize(100.dp, 32.dp)
                 ) {
                     Text(
                         text = data.value.data ?: "",
+                        color = MaterialTheme.colors.primary,
                         textAlign = TextAlign.Center,
                         fontSize = 32.sp,
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
 
-
-                Button(onClick = {
-                    onReveal()
-                }) {
+                Button(
+                    onClick = {
+                        onReveal()
+                    },
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(top = 32.dp)
+                ) {
                     Text(
-                        "SEND MORE DATA",
-                        color = MaterialTheme.colors.onPrimary
+                        "RETRY",
+                        fontSize = 24.sp
                     )
-
                 }
             }
         }
@@ -171,34 +184,82 @@ class GeneratorActivity : ComponentActivity() {
     }
 
     @Composable
-    fun ScreenConnection2(onReveal: () -> Unit) {
-        Button(onClick = {
-            onReveal()
-        }) {
-            Text("SEND REVEAL")
-
-        }
-    }
-
-
-    @Composable
     fun ScreenGenerator(onConceal: () -> Unit) {
         Column() {
+            Text(
+                "Terrain dimensions",
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 32.dp)
+                    .fillMaxWidth()
+            )
             InputField(
                 value = viewModel.terrainSize.collectAsState(),
-                onValueChange = { i -> viewModel.updateTerrainSize(i) })
-            Row() {
-                InputField(
-                    value = viewModel.x.collectAsState(),
-                    onValueChange = { i -> viewModel.updateX(i) })
-                InputField(
-                    value = viewModel.y.collectAsState(),
-                    onValueChange = { i -> viewModel.updateY(i) })
-            }
+                onValueChange = { i -> viewModel.updateTerrainSize(i) },
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        "Initial X",
+                        textAlign = TextAlign.Center
+                    )
+                    InputField(
+                        value = viewModel.x.collectAsState(),
+                        onValueChange = { i -> viewModel.updateX(i) })
+                }
 
-            Row {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        "Initial Y",
+                        textAlign = TextAlign.Center
+                    )
+                    InputField(
+                        value = viewModel.y.collectAsState(),
+                        onValueChange = { i -> viewModel.updateY(i) })
+                }
+            }
+            Text(
+                "Instructions Generator",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+            )
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(8.dp)
+                    .clip(shape = CircleShape)
+                    .background(Color.Black)
+                    .defaultMinSize(100.dp, 32.dp)
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = viewModel.instructions.collectAsState().value,
+                    color = MaterialTheme.colors.primary,
+                    textAlign = TextAlign.Center,
+                    fontSize = 32.sp,
+                    letterSpacing = 1.sp,
+                    maxLines = 1,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
                 BtnIconCircle(
-                    icon = Icons.Filled.ArrowBack,
+                    icon = Icons.Filled.RotateLeft,
                     onSend = { c -> viewModel.addInstruction(c) },
                     value = "L"
                 )
@@ -208,7 +269,7 @@ class GeneratorActivity : ComponentActivity() {
                     value = "M"
                 )
                 BtnIconCircle(
-                    icon = Icons.Filled.ArrowForward,
+                    icon = Icons.Filled.RotateRight,
                     onSend = { c -> viewModel.addInstruction(c) },
                     value = "R"
                 )
@@ -219,19 +280,30 @@ class GeneratorActivity : ComponentActivity() {
                 )
             }
 
-            Text(
-                text = viewModel.instructions.collectAsState().value
-            )
+
 
             DirectionsInput(
                 direction = viewModel.direction.collectAsState(),
-                onDirectionChange = { viewModel.point(it) })
+                onDirectionChange = { viewModel.point(it) },
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 16.dp)
+            )
 
-            Button(onClick = {
-                onConceal()
-                viewModel.sendData()
-            }) {
-                Text("SEND DATA")
+            Button(
+                onClick = {
+                    onConceal()
+                    viewModel.sendData()
+                },
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 32.dp)
+            ) {
+                Text(
+                    "SEND DATA",
+                    fontSize = 24.sp
+                )
 
             }
         }

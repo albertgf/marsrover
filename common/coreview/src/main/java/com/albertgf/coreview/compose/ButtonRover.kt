@@ -1,9 +1,6 @@
 package com.albertgf.coreview.compose
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -18,6 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.albertgf.coreview.R
+import com.albertgf.coreview.theme.MarsroverTheme
 
 @Composable
 fun <T>BtnIconCircle(icon: ImageVector, onSend: (T) -> Unit, value: T) {
@@ -26,13 +24,16 @@ fun <T>BtnIconCircle(icon: ImageVector, onSend: (T) -> Unit, value: T) {
             backgroundColor = MaterialTheme.colors.primary
         ),
         shape = CircleShape,
-        modifier = Modifier.width(64.dp).height(64.dp).padding(0.dp)
+        modifier = Modifier
+            .width(48.dp)
+            .height(48.dp)
+            .padding(0.dp)
     ) {
         Icon(
             imageVector = icon,
             contentDescription = stringResource(id = R.string.add_value),
             tint = MaterialTheme.colors.onPrimary,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.size(48.dp)
         )
     }
 }
