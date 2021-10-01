@@ -3,4 +3,9 @@
     <string name="retry">RETRY</string>
     <string name="cd_sending_data">icon of sending data status</string>
     <string name="cd_explore">icon of explore status</string>
+    <string name="label_terrain">Terrain dimensions</string>
+    <string name="label_x">Initial X</string>
+    <string name="label_y">Initial Y</string>
+    <string name="label_instrucions">Instructions Generator</string>
+    <string name="btn_send">SEND DATA</string>
 </resources>

@@ -3,33 +3,16 @@ package com.albertgf.features.generator
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.albertgf.common.domain.models.Resource
-import com.albertgf.common.domain.models.ResourceState
-import com.albertgf.coreview.compose.BtnIconCircle
-import com.albertgf.coreview.compose.DirectionsInput
-import com.albertgf.coreview.compose.InputField
-import com.albertgf.coreview.compose.PrimaryButton
 import com.albertgf.coreview.theme.MarsroverTheme
 import com.albertgf.features.R
 import kotlinx.coroutines.launch
@@ -47,16 +30,33 @@ class GeneratorActivity : ComponentActivity() {
                 val scaffoldState =
                     rememberBackdropScaffoldState(initialValue = BackdropValue.Concealed)
                 val scope = rememberCoroutineScope()
-                // A surface container using the 'background' color from the theme
+
                 BackdropScaffold(
                     scaffoldState = scaffoldState,
                     appBar = { AppBar() },
-                    backLayerContent = { ScreenResult(viewModel.result.collectAsState()) {
-                        scope.launch { scaffoldState.conceal() } } },
+                    backLayerContent = {
+                        ScreenResult(viewModel.result.collectAsState()) {
+                            scope.launch { scaffoldState.conceal() }
+                        }
+                    },
                     backLayerContentColor = Color.White,
                     backLayerBackgroundColor = colorResource(id = R.color.gray_500),
                     frontLayerContent = {
-                        ScreenGenerator { scope.launch { scaffoldState.reveal() } }
+                        ScreenGenerator(
+                            terrain = viewModel.terrainSize.collectAsState(),
+                            onTerrainChange = { viewModel.updateTerrainSize(it) },
+                            posX = viewModel.x.collectAsState(),
+                            onXChange = { viewModel.updateX(it) },
+                            posY = viewModel.y.collectAsState(),
+                            onYChange = { viewModel.updateY(it) },
+                            instructions = viewModel.instructions.collectAsState(),
+                            onAddInstruction = { viewModel.addInstruction(it) },
+                            onRemoveInstruction = { viewModel.removeInstruction() },
+                            onDirections = viewModel.direction.collectAsState(),
+                            onPoint = { viewModel.point(it) },
+                            onSend = { viewModel.sendData() },
+                            onConceal = { scope.launch { scaffoldState.reveal() } }
+                        )
                     },
                     frontLayerContentColor = Color.White,
                     frontLayerScrimColor = colorResource(id = R.color.gray_200),
@@ -79,131 +79,5 @@ class GeneratorActivity : ComponentActivity() {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.fillMaxWidth()
         )
-    }
-
-    @Composable
-    fun ScreenGenerator(onConceal: () -> Unit) {
-        Column() {
-            Text(
-                "Terrain dimensions",
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(top = 32.dp)
-                    .fillMaxWidth()
-            )
-            InputField(
-                value = viewModel.terrainSize.collectAsState(),
-                onValueChange = { i -> viewModel.updateTerrainSize(i) },
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        "Initial X",
-                        textAlign = TextAlign.Center
-                    )
-                    InputField(
-                        value = viewModel.x.collectAsState(),
-                        onValueChange = { i -> viewModel.updateX(i) })
-                }
-
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        "Initial Y",
-                        textAlign = TextAlign.Center
-                    )
-                    InputField(
-                        value = viewModel.y.collectAsState(),
-                        onValueChange = { i -> viewModel.updateY(i) })
-                }
-            }
-            Text(
-                "Instructions Generator",
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-            )
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(8.dp)
-                    .clip(shape = CircleShape)
-                    .background(Color.Black)
-                    .defaultMinSize(100.dp, 32.dp)
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = viewModel.instructions.collectAsState().value,
-                    color = MaterialTheme.colors.primary,
-                    textAlign = TextAlign.Center,
-                    fontSize = 32.sp,
-                    letterSpacing = 1.sp,
-                    maxLines = 1,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                BtnIconCircle(
-                    icon = Icons.Filled.RotateLeft,
-                    onSend = { c -> viewModel.addInstruction(c) },
-                    value = "L"
-                )
-                BtnIconCircle(
-                    icon = Icons.Filled.ArrowUpward,
-                    onSend = { c -> viewModel.addInstruction(c) },
-                    value = "M"
-                )
-                BtnIconCircle(
-                    icon = Icons.Filled.RotateRight,
-                    onSend = { c -> viewModel.addInstruction(c) },
-                    value = "R"
-                )
-                BtnIconCircle(
-                    icon = Icons.Filled.Delete,
-                    onSend = { c -> viewModel.removeInstruction() },
-                    value = ""
-                )
-            }
-
-
-
-            DirectionsInput(
-                direction = viewModel.direction.collectAsState(),
-                onDirectionChange = { viewModel.point(it) },
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(top = 16.dp)
-            )
-
-            Button(
-                onClick = {
-                    onConceal()
-                    viewModel.sendData()
-                },
-                shape = RoundedCornerShape(20.dp),
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(top = 32.dp)
-            ) {
-                Text(
-                    "SEND DATA",
-                    fontSize = 24.sp
-                )
-
-            }
-        }
     }
 }
