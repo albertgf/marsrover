@@ -21,7 +21,7 @@ to build the code challenge
 3. build project
 4. Execute the application
 
-##Considerations
+## Considerations
 
 * This project uses KOIN as DI
 * The description of the project put as constraint a Activity/Fragment implementation but I wanted to work with compose and the backdropScaffold component fit perfectly in the UI that I imagine it.
