@@ -29,6 +29,7 @@ import com.albertgf.common.domain.models.ResourceState
 import com.albertgf.coreview.compose.BtnIconCircle
 import com.albertgf.coreview.compose.DirectionsInput
 import com.albertgf.coreview.compose.InputField
+import com.albertgf.coreview.compose.PrimaryButton
 import com.albertgf.coreview.theme.MarsroverTheme
 import com.albertgf.features.R
 import kotlinx.coroutines.launch
@@ -117,20 +118,13 @@ class GeneratorActivity : ComponentActivity() {
                     )
                 }
 
-                Button(
-                    onClick = {
-                        onReveal()
-                    },
-                    shape = RoundedCornerShape(20.dp),
+                PrimaryButton(
+                    textId = R.string.retry,
+                    onClick = { onReveal() },
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .padding(top = 32.dp)
-                ) {
-                    Text(
-                        "RETRY",
-                        fontSize = 24.sp
-                    )
-                }
+                )
             }
         }
     }
