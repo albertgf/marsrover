@@ -28,11 +28,15 @@ class SendRepository(
         )
         delay(1500)
         emit(Resource(state = ResourceState.SETUP))
-        rover.setup(DataParser.toString(roverData))
-        delay(1500)
-        emit(Resource(state = ResourceState.LOADING))
-        val result = rover.explore()
-        delay(1500)
-        emit(Resource(state = ResourceState.SUCCESS, data = result))
+        rover.setup(DataParser.toString(roverData)).
+            fold( {
+                emit(Resource<String>(state = ResourceState.ERROR))
+            },{
+                delay(1500)
+                emit(Resource(state = ResourceState.LOADING))
+                val result = rover.explore()
+                delay(1500)
+                emit(Resource(state = ResourceState.SUCCESS, data = result))
+            })
     }.flowOn(dispatcher)
 }

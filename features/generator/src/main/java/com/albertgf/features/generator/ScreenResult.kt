@@ -97,6 +97,7 @@ private fun imageSending(state: ResourceState): ImageVector {
         ResourceState.SETUP -> Icons.Filled.Wifi
         ResourceState.LOADING -> Icons.Filled.Wifi
         ResourceState.SUCCESS -> Icons.Filled.Wifi
+        ResourceState.ERROR -> Icons.Filled.WifiOff
     }
 }
 
@@ -106,6 +107,7 @@ private fun imageSendingColor(state: ResourceState): Color {
         ResourceState.SETUP -> Color.White
         ResourceState.LOADING -> Color.Green
         ResourceState.SUCCESS -> Color.Green
+        ResourceState.ERROR -> Color.Red
     }
 }
 
@@ -115,6 +117,7 @@ private fun imageExplore(state: ResourceState): ImageVector {
         ResourceState.SETUP -> Icons.Filled.Pause
         ResourceState.LOADING -> Icons.Filled.Explore
         ResourceState.SUCCESS -> Icons.Filled.Explore
+        ResourceState.ERROR -> Icons.Filled.Explore
     }
 }
 
@@ -124,5 +127,6 @@ private fun imageExploreColor(state: ResourceState): Color {
         ResourceState.SETUP -> Color.Red
         ResourceState.LOADING -> Color.White
         ResourceState.SUCCESS -> Color.Green
+        ResourceState.ERROR -> Color.Red
     }
 }
