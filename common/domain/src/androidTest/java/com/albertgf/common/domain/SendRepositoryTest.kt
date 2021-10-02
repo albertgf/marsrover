@@ -1,5 +1,6 @@
 package com.albertgf.common.domain
 
+import arrow.core.right
 import com.albertgf.common.domain.models.ResourceState
 import com.albertgf.common.domain.repository.SendRepository
 import com.albertgf.core.Rover
@@ -48,7 +49,7 @@ class SendRepositoryTest {
     fun verify_rover_setup_and_call_explore() = testDispatcher.runBlockingTest {
         val repository = SendRepository(mockRover, testDispatcher)
 
-        every { mockRover.setup(any()) } returns Unit
+        every { mockRover.setup(any()) } returns true.right()
         every { mockRover.explore() } returns "1 3 N"
 
         val flow = repository.send(DomainTestUtil.fakeRoverDomain())
@@ -68,7 +69,7 @@ class SendRepositoryTest {
     fun verify_emit_all_states() = testDispatcher.runBlockingTest {
         val repository = SendRepository(mockRover, testDispatcher)
 
-        every { mockRover.setup(any()) } returns Unit
+        every { mockRover.setup(any()) } returns true.right()
         every { mockRover.explore() } returns "1 3 N"
 
         val flow = repository.send(DomainTestUtil.fakeRoverDomain())
