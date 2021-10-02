@@ -8,4 +8,8 @@ data class Terrain(
      fun withinLimits(x: Int, y: Int): Boolean {
         return y <= height - 1 && y >= 0 && x < width && x >= 0
     }
+
+    fun isValid() : Boolean {
+        return width > 0 && height > 0
+    }
 }

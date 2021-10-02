@@ -2,7 +2,6 @@ package com.albertgf.core
 
 import arrow.core.Either
 import arrow.core.flatMap
-import arrow.core.right
 import com.albertgf.core.errors.RoverError
 
 class Rover {
@@ -20,7 +19,8 @@ class Rover {
                     direction = Direction(input.direction)
                 )
             )
-            true.right()
+
+            return navigationSystem.isValid()
         }
     }
 

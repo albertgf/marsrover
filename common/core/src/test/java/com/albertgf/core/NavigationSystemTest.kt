@@ -1,5 +1,6 @@
 package com.albertgf.core
 
+import com.albertgf.core.errors.RoverError
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -40,5 +41,19 @@ class NavigationSystemTest {
         navSystemExample.input("LMLMLMLMM")
 
         Assert.assertEquals(navSystemExample.printLocation(), "1 3 N")
+    }
+
+    @Test
+    fun should_throw_terrain_error_with_not_valid_terrain_values() {
+        val navSystemExample = NavigationSystem(
+            terrain = Terrain(width = 0, height = 0),
+            position = Position(x = 1, y = 2, direction = Direction("N"))
+        )
+
+        val valid = navSystemExample.isValid()
+
+        val error = valid.swap().orNull()
+
+        Assert.assertTrue(error is RoverError.NotValidTerrain)
     }
 }
