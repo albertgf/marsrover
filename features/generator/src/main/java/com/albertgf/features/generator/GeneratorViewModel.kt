@@ -47,7 +47,8 @@ class GeneratorViewModel(private val sendRepository: SendRepository) : ViewModel
     }
 
     fun addInstruction(char: String) {
-        _instructions.value += char
+        if (_instructions.value.length < 10)
+            _instructions.value += char
     }
 
     fun removeInstruction() {
@@ -67,8 +68,9 @@ class GeneratorViewModel(private val sendRepository: SendRepository) : ViewModel
                     y = _y.value,
                     instructions = _instructions.value,
                     direction = _direction.value
-                )).collect {
-                    _result.value = it
+                )
+            ).collect {
+                _result.value = it
             }
         }
     }
