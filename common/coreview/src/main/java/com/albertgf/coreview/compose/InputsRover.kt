@@ -1,11 +1,12 @@
 package com.albertgf.coreview.compose
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -87,5 +88,36 @@ fun DirectionsInput(
         ) {
             Text(text = "W")
         }
+    }
+}
+
+@Composable
+fun InstructionsInput(onAdd: (String) -> Unit, onRemove: () -> Unit) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        BtnIconCircle(
+            icon = Icons.Filled.RotateLeft,
+            onSend = { c -> onAdd(c) },
+            value = "L"
+        )
+        BtnIconCircle(
+            icon = Icons.Filled.ArrowUpward,
+            onSend = { c -> onAdd(c) },
+            value = "M"
+        )
+        BtnIconCircle(
+            icon = Icons.Filled.RotateRight,
+            onSend = { c -> onAdd(c) },
+            value = "R"
+        )
+        BtnIconCircle(
+            icon = Icons.Filled.Delete,
+            onSend = { onRemove() },
+            value = ""
+        )
     }
 }

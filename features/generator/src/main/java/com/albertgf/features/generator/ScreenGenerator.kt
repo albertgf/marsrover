@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.albertgf.coreview.compose.BtnIconCircle
 import com.albertgf.coreview.compose.DirectionsInput
 import com.albertgf.coreview.compose.InputField
+import com.albertgf.coreview.compose.InstructionsInput
 import com.albertgf.features.R
 
 @Composable
@@ -109,33 +110,7 @@ fun ScreenGenerator(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            BtnIconCircle(
-                icon = Icons.Filled.RotateLeft,
-                onSend = { c -> onAddInstruction(c) },
-                value = "L"
-            )
-            BtnIconCircle(
-                icon = Icons.Filled.ArrowUpward,
-                onSend = { c -> onAddInstruction(c) },
-                value = "M"
-            )
-            BtnIconCircle(
-                icon = Icons.Filled.RotateRight,
-                onSend = { c -> onAddInstruction(c) },
-                value = "R"
-            )
-            BtnIconCircle(
-                icon = Icons.Filled.Delete,
-                onSend = { onRemoveInstruction() },
-                value = ""
-            )
-        }
+        InstructionsInput(onAdd = onAddInstruction, onRemove = onRemoveInstruction)
 
         DirectionsInput(
             direction = onDirections,

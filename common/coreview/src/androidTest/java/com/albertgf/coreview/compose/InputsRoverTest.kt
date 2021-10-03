@@ -98,4 +98,51 @@ class InputsRoverTest {
 
         Assert.assertEquals(direction, "W")
     }
+
+    @Test
+    fun instructions_input_rotate_left_click_should_return_L_value() {
+        var instruction= ""
+        composeTestRule.setContent {
+            InstructionsInput(onAdd = { instruction = it}, onRemove = {instruction = "R"} )
+        }
+
+        composeTestRule.onRoot().onChildAt(0).performClick()
+
+        Assert.assertEquals(instruction, "L")
+    }
+    @Test
+    fun instructions_input_move_click_should_return_M_value() {
+        var instruction= ""
+        composeTestRule.setContent {
+            InstructionsInput(onAdd = { instruction = it}, onRemove = {instruction = "R"} )
+        }
+
+        composeTestRule.onRoot().onChildAt(1).performClick()
+
+        Assert.assertEquals(instruction, "M")
+    }
+
+    @Test
+    fun instructions_input_rotate_right_click_should_return_R_value() {
+        var instruction= ""
+        composeTestRule.setContent {
+            InstructionsInput(onAdd = { instruction = it}, onRemove = {instruction = "R"} )
+        }
+
+        composeTestRule.onRoot().onChildAt(2).performClick()
+
+        Assert.assertEquals(instruction, "R")
+    }
+
+    @Test
+    fun instructions_input_remove_click_should_call_on_remove() {
+        var instruction= ""
+        composeTestRule.setContent {
+            InstructionsInput(onAdd = { instruction = it}, onRemove = {instruction = "remove"} )
+        }
+
+        composeTestRule.onRoot().onChildAt(3).performClick()
+
+        Assert.assertEquals(instruction, "remove")
+    }
 }
