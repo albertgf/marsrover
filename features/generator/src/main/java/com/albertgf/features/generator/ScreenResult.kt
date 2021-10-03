@@ -62,7 +62,7 @@ fun ScreenResult(data: State<Resource<String>>, onReveal: () -> Unit) {
             )
             Text(
                 stringResource(id = R.string.label_ending),
-            modifier = Modifier.padding(top = 16.dp))
+            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
 
             Box(
                 modifier = Modifier
